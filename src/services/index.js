@@ -1,0 +1,9 @@
+module.exports.authService = require('./auth.service');
+module.exports.emailService = require('./email.service');
+module.exports.tokenService = require('./token.service');
+module.exports.userService = require('./user.service');
+module.exports.WorkspaceService = require('./workspace.service');
+module.exports.apiService = require('./api.service');
+module.exports.collectionService = require('./collection.service');
+module.exports.apiCallService = require('./apiCall.service');
+module.exports.WorkspacePermissionService = require('./workspacePermission.service');
