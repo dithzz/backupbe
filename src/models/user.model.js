@@ -14,7 +14,7 @@ const userSchema = mongoose.Schema(
       suffix: {
         type: String,
         trim: true,
-        enum: ['Mr', 'Mrs', 'Miss'],
+        enum: ['Mr', 'Mrs', 'Miss'],  
       },
       firstName: {
         type: String,

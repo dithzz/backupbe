@@ -24,4 +24,6 @@ router.get('/:workspaceId/permissions', authenticateUser, WorkspaceController.ge
 router.get('/:workspaceId/permissions/all', authenticateUser, WorkspaceController.getWorkspacePermissionsOfUsers);
 router.get('/:workspaceId/permissions/:userId', authenticateUser, WorkspaceController.getUserWorkspacePermissions);
 
+router.put('/:workspaceId/permissions/:userId', authenticateUser, WorkspaceController.updatePermissions);
+
 module.exports = router;

@@ -31,6 +31,7 @@ const createWorkspace = catchAsync(async (req, res) => {
     user: userId,
     permissions: {
       collections: { ...defaultWorkspacePermissions },
+      collabarators: { ...defaultWorkspacePermissions },
     },
   };
 
@@ -105,8 +106,14 @@ const getWorkspacePermissionsOfUsers = catchAsync(async (req, res) => {
   const { workspaceId } = req.params;
 
   // Query permissions based on the user and workspace
-  const permissions = await WorkspacePermission.find({ workspace: workspaceId }).populate('user').lean();
-
+  const permissions = await WorkspacePermission.findOne({ workspace: workspaceId })
+    .populate({
+      path: 'workspace',
+      populate: {
+        path: 'members.user',
+      },
+    })
+    .lean();
   if (!permissions) {
     return res.status(404).json({ error: 'Permissions not found' });
   }
@@ -136,6 +143,19 @@ const getWorkspaceInvitations = catchAsync(async (req, res) => {
   res.status(200).json({ invitedWorkspaces });
 });
 
+const updatePermissions = catchAsync(async (req, res) => {
+  const { workspaceId, userId } = req.params;
+  const { permissions } = req.body;
+
+  // Ensure that the user making the request has the necessary permissions (e.g., admin check)
+  // Implement your authentication and authorization logic here
+
+  // Update permissions using the service
+  const updatedPermissions = await WorkspaceService.updatePermissions(workspaceId, userId, permissions);
+
+  res.status(200).json(updatedPermissions);
+});
+
 module.exports = {
   createWorkspace,
   getUserWorkspaces,
@@ -146,4 +166,5 @@ module.exports = {
   getWorkspaceInvitations,
   getWorkspacePermissionsOfUsers,
   getUserWorkspacePermissions,
+  updatePermissions,
 };

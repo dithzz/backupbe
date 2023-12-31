@@ -1,6 +1,6 @@
 // services/WorkspaceService.js
 
-const { Workspace, User } = require('../models');
+const { Workspace, User, WorkspacePermission } = require('../models');
 
 const createWorkspace = async (name, purpose, userId, privacy) => {
   try {
@@ -122,6 +122,23 @@ const getInvitedWorkspaces = async (userId) => {
   }
 };
 
+const updatePermissions = async (workspaceId, userId, newPermissions) => {
+  // Update permissions in the database
+  try {
+    const updatedPermissions = await WorkspacePermission.findOneAndUpdate(
+      { workspace: workspaceId, user: userId },
+      { permissions: newPermissions },
+      { new: true }
+    );
+
+    return updatedPermissions;
+  } catch (error) {
+    // Handle errors, log them, and optionally throw or return an error response
+    console.error(error);
+    throw error;
+  }
+};
+
 module.exports = {
   createWorkspace,
   getUserWorkspaces,
@@ -129,4 +146,5 @@ module.exports = {
   updateWorkspace,
   sendInvitation,
   getInvitedWorkspaces,
+  updatePermissions,
 };

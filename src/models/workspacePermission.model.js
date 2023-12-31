@@ -19,6 +19,12 @@ const workspacePermissionSchema = new mongoose.Schema(
         update: { type: Boolean, default: false },
         delete: { type: Boolean, default: false },
       },
+      collabarators: {
+        view: { type: Boolean, default: false },
+        create: { type: Boolean, default: false },
+        update: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+      },
     },
   },
   {
@@ -33,6 +39,10 @@ workspacePermissionSchema.pre('save', function (next) {
     this.permissions.collections.create = true;
     this.permissions.collections.update = true;
     this.permissions.collections.delete = true;
+    this.collabarators.collections.view = true;
+    this.collabarators.collections.create = true;
+    this.collabarators.collections.update = true;
+    this.collabarators.collections.delete = true;
     // Set other permissions to true if needed
   }
   next();
